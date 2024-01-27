@@ -30,7 +30,7 @@ public class LibUser {
 
 	@Column(name = "password",nullable = false, columnDefinition = "varchar(255)")
 	private String password;
-
+	
 	@Column(name = "userName",nullable = false, columnDefinition = "nvarchar(30)")
 	private String userName;
 
