@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	// Define URLs to be excluded from JWT authentication
 	private static final String[] excludedUrls = { "/liblib/login", "/liblib/libuser/register",
-			"/liblib/book/.*" };
+			"/liblib/book/.*","/liblib/br/.*" };
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

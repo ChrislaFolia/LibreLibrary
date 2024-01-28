@@ -14,13 +14,31 @@ public class BorrowingRecordService implements IBorrowingRecordService {
 	private BorrowingRecordRepository brRepo;
 	
 	@Override
-	public boolean borrowBooks(List<Integer> ids) {
-		return false;
+	public boolean borrowBooks( Integer userId,List<Integer> ids) {
+		int bookAmount = ids.size();
+		try {
+			for (int i = 0; i < bookAmount; i++) {
+				brRepo.borrowBooks(userId,ids.get(i));
+			}
+			return true;
+		} catch (Exception e) {
+			e.getStackTrace();
+			return false;
+		}
 	}
 
 	@Override
-	public boolean returnBooks(List<Integer> ids) {
-		return false;
+	public boolean returnBooks(Integer userId,List<Integer> ids) {
+		int bookAmount = ids.size();
+		try {
+			for (int i = 0; i < bookAmount; i++) {
+				brRepo.returnBooks(userId,ids.get(i));
+			}
+			return true;
+		} catch (Exception e) {
+			e.getStackTrace();
+			return false;
+		}
 	}
 
 }

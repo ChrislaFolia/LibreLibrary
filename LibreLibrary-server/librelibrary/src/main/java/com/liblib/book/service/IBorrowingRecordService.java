@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface IBorrowingRecordService {
 
-	boolean borrowBooks(List<Integer> ids);
+	boolean borrowBooks(Integer userId,List<Integer> ids);
 
-	boolean returnBooks(List<Integer> ids);
+	boolean returnBooks(Integer userId,List<Integer> ids);
 	
 }

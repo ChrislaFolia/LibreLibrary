@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.liblib.book.model.BorrowAndReturnDto;
 import com.liblib.book.service.IBorrowingRecordService;
 
 @RestController
@@ -23,8 +25,8 @@ public class BorrowAndReturnController {
 	private IBorrowingRecordService brService;
 	
 	@PostMapping("/borrow")
-	public ResponseEntity<?> borrowBooks(@RequestBody List<Integer> ids) {
-		boolean result = brService.borrowBooks(ids);
+	public ResponseEntity<?> borrowBooks(@RequestBody BorrowAndReturnDto brBean) {
+		boolean result = brService.borrowBooks(brBean.getUserId(),brBean.getInventoryIds());
 		if(result){
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
@@ -32,8 +34,8 @@ public class BorrowAndReturnController {
 	}
 
 	@PutMapping("/return")
-	public ResponseEntity<?> returnBooks(@RequestBody List<Integer> ids) {
-		boolean result = brService.returnBooks(ids);
+	public ResponseEntity<?> returnBooks(@RequestBody BorrowAndReturnDto brBean) {
+		boolean result = brService.returnBooks(brBean.getUserId(),brBean.getInventoryIds());
 		if(result){
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
