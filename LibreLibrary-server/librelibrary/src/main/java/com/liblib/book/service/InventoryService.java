@@ -24,4 +24,9 @@ public class InventoryService implements IInventoryService {
 		return iRepo.findByIsbn(isbn);
 	}
 
+	@Override
+	public List<Inventory> findByIds(List<Integer> inventoryIds) {
+		return iRepo.findAllById(inventoryIds);
+	}
+
 }

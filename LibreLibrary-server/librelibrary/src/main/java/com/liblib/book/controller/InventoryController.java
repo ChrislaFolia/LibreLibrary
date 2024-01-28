@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.liblib.book.model.BorrowAndReturnDto;
 import com.liblib.book.model.Inventory;
 import com.liblib.book.service.IInventoryService;
 
@@ -38,6 +40,18 @@ public class InventoryController {
 			
 		try {
 			List<Inventory> resultList = iService.findByIsbn(isbn);
+			return new ResponseEntity<>(resultList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/ids")
+	public ResponseEntity<?> findInventoriesByIds(@RequestBody BorrowAndReturnDto brBean) {
+		if(brBean.getInventoryIds().size()==0) return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+		
+		try {
+			List<Inventory> resultList = iService.findByIds(brBean.getInventoryIds());
 			return new ResponseEntity<>(resultList, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
