@@ -37,24 +37,21 @@ const authToken = async (token) => {
   const data = {
     token: token,
   };
-  const res = await axios.post(`${url}/auth`, data);
+  const res = await axios.post(`${URL}/auth`, data);
   if (res.data.status) {
     result.status = true;
     result.token = res.data.token;
     result.userName = res.data.username;
-    result.loa = res.data.loa;
     setLoginStore({
       isLogin: true,
       token: result.token,
       userName: result.userName,
-      loa: result.loa,
     });
   } else {
     setLoginStore({
       isLogin: false,
       token: "",
       userName: "",
-      loa: result.loa,
     });
   }
 
@@ -69,7 +66,7 @@ const setLoginStore = (options) => {
 };
 
 const logout = () => {
-  window.localStorage.setItem("isLogin", "");
+  window.localStorage.setItem("isLogin", false);
   window.localStorage.setItem("token", "");
   window.localStorage.setItem("username", "");
   window.localStorage.setItem("phoneNumber", "");

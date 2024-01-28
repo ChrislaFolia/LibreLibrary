@@ -8,13 +8,24 @@
             <RouterLink class="nav-link" to="/">圖書館首頁</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/account">我的書房</RouterLink>
+            <RouterLink
+              v-if="isLoginNavbarTop == 'true' || isLoginNavbarTop == true"
+              class="nav-link"
+              to="/account"
+              >我的書房</RouterLink
+            >
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/login">登入</RouterLink>
+            <RouterLink
+              v-if="isLoginNavbarTop == 'false' || isLoginNavbarTop == false"
+              class="nav-link"
+              to="/login"
+              >登入</RouterLink
+            >
           </li>
           <li class="nav-item dropdown">
             <a
+              v-if="isLoginNavbarTop == 'true' || isLoginNavbarTop == true"
               class="nav-link dropdown-toggle"
               data-bs-toggle="dropdown"
               href="#"
@@ -33,13 +44,19 @@
     </div>
   </nav>
 </template>
+
 <script setup>
 /*
   imports
 */
-import { ref } from "vue";
-import { RouterLink, useRoute, useRouter } from "vue-router";
-import { useDialog, useMessage } from "naive-ui";
+import { ref, onMounted, onUpdated } from "vue";
+import { RouterLink, useRouter } from "vue-router";
+import { useMessage } from "naive-ui";
+
+/*
+  Check whether login
+*/
+const isLoginNavbarTop = ref("false");
 
 /*
   Router
@@ -50,25 +67,37 @@ const router = useRouter();
   Method
 */
 const logout = () => {
-  window.localStorage.setItem("isLogin", "");
+  window.localStorage.setItem("isLogin", false);
   window.localStorage.setItem("token", "");
   window.localStorage.setItem("username", "");
   window.localStorage.setItem("phoneNumber", "");
-  handleSuccess("您已登出，期待您再次蒞臨");
-  router.push("/");
+  handleMessage("您已登出，期待您再次蒞臨");
+  // handleSuccess();
+  router.push("/login");
 };
 
 /*
   Naive UI components
 */
-const dialog = useDialog();
-const handleSuccess = (contentText) => {
-  dialog.success({
-    title: "成功",
-    content: contentText,
-    positiveText: "確定",
+const messageNaive = useMessage();
+
+const handleMessage = (messageText) => {
+  messageNaive.success(messageText, {
+    closable: true,
+    duration: 5000,
   });
 };
+
+/*
+  LifeCycle Hooks
+*/
+onMounted(() => {
+  isLoginNavbarTop.value = window.localStorage.getItem("isLogin");
+});
+
+onUpdated(() => {
+  isLoginNavbarTop.value = window.localStorage.getItem("isLogin");
+});
 </script>
 
 <style scoped></style>
