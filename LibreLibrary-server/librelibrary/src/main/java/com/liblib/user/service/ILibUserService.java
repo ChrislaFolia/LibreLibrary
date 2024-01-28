@@ -10,5 +10,7 @@ public interface ILibUserService {
 	
 	void updateLastLoginTime(LibUser userBean);
 	
+	LibUser findLibUserByPhoneNumber(String phoneNumber);
+	
 	
 }
