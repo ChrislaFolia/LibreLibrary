@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,7 +41,7 @@ public class Inventory {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
 	private List<BorrowingRecord> borrowingRecord = new ArrayList<>();
 	
-	@JsonIgnore
+	@JsonIgnoreProperties({"introduction","isbn"})
 	@ManyToOne
 	@JoinColumn(name="isbn",insertable = false,updatable = false)
 	private Book book;

@@ -78,8 +78,12 @@
                   <td>總舘</td>
                   <td>{{ item.status }}</td>
                   <td class="text-center">
-                    <div @click="" class="btn btn-sm btn-outline-primary">
-                      借閲
+                    <div
+                      @click="addToBooBorrowStore(item.inventoryId)"
+                      v-if="item.status == '在庫'"
+                      class="btn btn-sm btn-outline-primary"
+                    >
+                      放入借書籃
                     </div>
                   </td>
                 </tr>
@@ -105,6 +109,9 @@ import { ref, reactive, onMounted, watch } from "vue";
 import { RouterLink, useRouter, useRoute } from "vue-router";
 import NavbarTop from "../components/navbarTop.vue";
 import axios from "axios";
+import { useBorrowStore } from "../stores/borrowStore";
+import { storeToRefs } from "pinia";
+import { useDialog, useMessage } from "naive-ui";
 
 /**
  * Router
@@ -146,6 +153,44 @@ const loadAllInventaryData = async () => {
     });
 
   allInventaryData.value = response.data;
+};
+
+/*
+  Store and session storage
+*/
+const borrowStore = useBorrowStore();
+const { bookBorrowStore } = storeToRefs(borrowStore);
+
+/**
+ * Add inventory to bookBorrowStore
+ */
+const addToBooBorrowStore = (inventoryId) => {
+  if (!bookBorrowStore.value.includes(inventoryId)) {
+    bookBorrowStore.value.push(inventoryId);
+    handleSuccess("已加入借書籃");
+  } else {
+    handleWarning("本書已經在借書籃中");
+  }
+};
+
+/*
+  Naive UI components
+*/
+const dialog = useDialog();
+const handleSuccess = (contentText) => {
+  dialog.success({
+    title: "成功",
+    content: contentText,
+    positiveText: "確定",
+  });
+};
+
+const handleWarning = (contentText) => {
+  dialog.warning({
+    title: "小提醒",
+    content: contentText,
+    positiveText: "確定",
+  });
 };
 
 /**
