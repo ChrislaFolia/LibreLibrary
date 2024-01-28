@@ -5,13 +5,13 @@
   <body>
     <section class="page-section">
       <div class="container" style="padding-top: 2%; padding-bottom: 1%">
-        <h1 class="text-center mb-3">圖書館首頁</h1>
+        <h1 class="text-center mb-1">圖書館首頁</h1>
       </div>
       <!-- Order table start -->
       <div class="row justify-content-center">
         <div class="col-11 col-md-9 col-lg-7">
           <div>
-            <table class="table caption-top">
+            <table class="table table-hover caption-top">
               <caption>
                 本館館藏
               </caption>
@@ -23,28 +23,71 @@
                   <th scope="col">借閲</th>
                 </tr>
               </thead>
-              <!-- <tbody v-for="(item, index) in pageClasses">
+              <tbody v-for="(item, index) in allBookData">
                 <tr>
-                  <th scope="row">{{ index + 1 }}</th>
-                  <td>{{ item.courseName }}</td>
-                  <td>{{ item.employeename }}</td>
-                  <td>{{ item.classDate }}&nbsp;{{ item.classTime }}</td>
-                  <td>NT$ &nbsp;{{ item.price.toLocaleString() }}</td>
+                  <td scope="row">{{ index + 1 }}</td>
+                  <td>{{ item.name }}</td>
+                  <td>{{ item.author }}</td>
+                  <td class="text-center">
+                    <div
+                      @click="toSingleBook(item.isbn)"
+                      class="btn btn-sm btn-outline-primary"
+                    >
+                      看館藏
+                    </div>
+                  </td>
                 </tr>
-              </tbody> -->
+              </tbody>
             </table>
           </div>
         </div>
       </div>
       <!-- Order table end -->
-      <RouterLink type="button" class="btn btn-link" to="/book/1"
-        >去借書</RouterLink
-      >
     </section>
   </body>
 </template>
 <script setup>
-import { ref, reactive, onMounted, onBeforeMount, watch } from "vue";
+/**
+ * Imports
+ */
+
+const URL = import.meta.env.VITE_API_JAVAURL;
+import { ref, reactive, onMounted, watch } from "vue";
+import { RouterLink, useRouter, useRoute } from "vue-router";
 import NavbarTop from "../components/navbarTop.vue";
+import axios from "axios";
+
+/**
+ * Load Datas
+ */
+// Load Book data
+const allBookData = ref([]);
+const loadAllBookData = async () => {
+  const URLAPI = `${URL}/book/findAll`;
+  const response = await axios.get(URLAPI).catch((error) => {
+    console.log(error.toJSON());
+  });
+
+  allBookData.value = response.data;
+};
+
+/**
+ * Router
+ */
+const router = useRouter();
+const route = useRoute();
+const toSingleBook = (isbn) => {
+  router.push({
+    path: "/book",
+    query: { isbn },
+  });
+};
+
+/**
+ * LifeCycle Hooks
+ */
+onMounted(() => {
+  loadAllBookData();
+});
 </script>
 <style scoped></style>

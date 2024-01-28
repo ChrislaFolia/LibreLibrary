@@ -31,7 +31,7 @@ const router = createRouter({
       // },
     },
     {
-      path: "/book/:isbn",
+      path: "/book",
       name: "book",
       component: () => import("../views/bookView.vue"),
       // meta: {
