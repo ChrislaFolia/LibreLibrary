@@ -83,6 +83,18 @@ public class LibUserService implements ILibUserService {
 		}
 	}
 
+	@Override
+	public LibUser findLibUserByPhoneNumber(String phoneNumber) {
+		try {
+			LibUser resultBean = userRepo.findLibUserByPhoneNumber(phoneNumber);
+			if(resultBean!=null) return resultBean;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+
 
 	
 }

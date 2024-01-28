@@ -25,7 +25,7 @@ public class LibUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
 	
-	@Column(name = "phoneNumber",nullable = false, columnDefinition = "varchar(25)")
+	@Column(name = "phoneNumber",nullable = false,unique = true, columnDefinition = "varchar(25)")
 	private String phoneNumber;
 
 	@Column(name = "password",nullable = false, columnDefinition = "varchar(255)")
