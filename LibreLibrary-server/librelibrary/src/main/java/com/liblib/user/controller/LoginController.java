@@ -17,7 +17,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.liblib.user.model.LibUser;
-import com.liblib.user.model.ResponseJwt;
+import com.liblib.user.model.LoginResponse;
 import com.liblib.user.service.ILibUserService;
 
 @RestController
@@ -31,7 +31,7 @@ public class LoginController {
 	@PostMapping()
 	public String login(@RequestBody LibUser userBean) {
 		try {
-			ResponseJwt loginResponse = new ResponseJwt();
+			LoginResponse loginResponse = new LoginResponse();
 			
 			LibUser resultBean = userService.checkLogin(userBean); // 驗證帳號密碼
 			userService.updateLastLoginTime(userBean);
@@ -51,7 +51,7 @@ public class LoginController {
 			return loginResponse.toJSONString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			ResponseJwt loginResponse = new ResponseJwt();
+			LoginResponse loginResponse = new LoginResponse();
 			loginResponse.setStatus(false);
 			loginResponse.setToken("");
 			loginResponse.setUserName("");
@@ -63,9 +63,9 @@ public class LoginController {
 		
 	}
 	
-	String SECRET_KEY = "nO,4o*Czn|9Tj8P[.j,JT%tFY=|=A{";
+	private static final String SECRET_KEY = "nO,4o*Czn|9Tj8P[.j,JT%tFY=|=A{";
 	Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
-
+	
 	String generateToken(String username) throws Exception {
 		String token = "";
 		LocalDateTime dateTime = LocalDateTime.now().plusMinutes(60);

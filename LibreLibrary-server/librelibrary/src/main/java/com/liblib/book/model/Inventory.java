@@ -25,8 +25,8 @@ public class Inventory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer inventoryId;
 	
-	@Column(name = "ISBN",nullable = false, columnDefinition = "varchar(20)")
-    private String ISBN;
+	@Column(name = "isbn",nullable = false, columnDefinition = "varchar(20)")
+    private String isbn;
 
 	@Column(name = "storeTime",nullable = false, columnDefinition = "datetime2")
     private Date storeTime;
@@ -38,6 +38,6 @@ public class Inventory {
 	private List<BorrowingRecord> borrowingRecord = new ArrayList<>();
 	
 	@ManyToOne
-	@JoinColumn(name="ISBN",insertable = false,updatable = false)
+	@JoinColumn(name="isbn",insertable = false,updatable = false)
 	private Book book;
 }

@@ -17,8 +17,8 @@ import lombok.Data;
 public class Book {
 
 	@Id
-	@Column(name = "ISBN",nullable = false, columnDefinition = "varchar(20)")
-    private String ISBN;
+	@Column(name = "isbn",nullable = false, columnDefinition = "varchar(20)")
+    private String isbn;
 	
 	@Column(name = "name",nullable = false, columnDefinition = "nvarchar(60)")
 	private String name;

@@ -6,11 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
 @Data
-public class ResponseJwt {
+public class LoginResponse {
 
     private boolean status = false;
     private String token = "";
-    private Integer userId = 0;
     private String phoneNumber = "";
     private String userName = "";
     
