@@ -37,6 +37,7 @@ public class LoginController {
 					loginResponse.setStatus(true);
 					loginResponse.setToken(token);
 					loginResponse.setUserName(resultBean.getUserName());
+					loginResponse.setUserId(resultBean.getUserId());
 					loginResponse.setPhoneNumber(resultBean.getPhoneNumber());
 				} catch (Exception exception) {
 					exception.printStackTrace();
@@ -50,6 +51,7 @@ public class LoginController {
 			loginResponse.setStatus(false);
 			loginResponse.setToken("");
 			loginResponse.setUserName("");
+			loginResponse.setUserId(-1);
 			
 			return loginResponse.toJSONString();
 			

@@ -21,6 +21,7 @@ const login = async (phoneNumber, password) => {
       token: result.token,
       phoneNumber: res.data.phoneNumber,
       userName: res.data.userName,
+      userId: res.data.userId,
     });
   }
 
@@ -61,14 +62,16 @@ const authToken = async (token) => {
 const setLoginStore = (options) => {
   window.localStorage.setItem("isLogin", options.isLogin);
   window.localStorage.setItem("token", options.token);
-  window.localStorage.setItem("username", options.userName);
+  window.localStorage.setItem("userName", options.userName);
+  window.localStorage.setItem("userId", options.userId);
   window.localStorage.setItem("phoneNumber", options.phoneNumber);
 };
 
 const logout = () => {
   window.localStorage.setItem("isLogin", false);
   window.localStorage.setItem("token", "");
-  window.localStorage.setItem("username", "");
+  window.localStorage.setItem("userName", "");
+  window.localStorage.setItem("userId", -1);
   window.localStorage.setItem("phoneNumber", "");
 };
 

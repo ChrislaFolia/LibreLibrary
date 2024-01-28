@@ -11,6 +11,7 @@ public class LoginResponse {
     private boolean status = false;
     private String token = "";
     private String phoneNumber = "";
+    private int userId = -1;
     private String userName = "";
     
     public String toJSONString(){
