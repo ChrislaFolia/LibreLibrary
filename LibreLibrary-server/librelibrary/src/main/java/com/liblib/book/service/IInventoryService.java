@@ -11,4 +11,5 @@ public interface IInventoryService {
 	List<Inventory> findByIsbn(String isbn);
 	
 	List<Inventory> findByIds(List<Integer> inventoryIds);
+
 }

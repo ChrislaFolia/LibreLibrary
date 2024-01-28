@@ -29,4 +29,5 @@ public class InventoryService implements IInventoryService {
 		return iRepo.findAllById(inventoryIds);
 	}
 
+
 }

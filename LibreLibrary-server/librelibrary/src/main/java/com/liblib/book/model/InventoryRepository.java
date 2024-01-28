@@ -10,6 +10,8 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer>  
 
 	@Query("from Inventory where isbn = :isbn")
 	List<Inventory> findByIsbn(@Param("isbn") String isbn);
+
+
 	
 	
 }

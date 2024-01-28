@@ -2,6 +2,7 @@ package com.liblib.book.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liblib.user.model.LibUser;
 
 import jakarta.persistence.Column;
@@ -35,10 +36,12 @@ public class BorrowingRecord {
 	@Column(name = "returnTime", columnDefinition = "datetime2")
     private Date returnTime;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="userId",insertable = false,updatable = false)
 	private LibUser libUser;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="inventoryId",insertable = false,updatable = false)
 	private Inventory inventory;

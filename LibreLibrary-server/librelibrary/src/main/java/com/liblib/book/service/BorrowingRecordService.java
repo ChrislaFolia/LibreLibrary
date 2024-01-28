@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.liblib.book.model.BorrowingRecord;
+import com.liblib.book.model.BorrowingRecordDto;
 import com.liblib.book.model.BorrowingRecordRepository;
 
 @Service
@@ -40,5 +42,15 @@ public class BorrowingRecordService implements IBorrowingRecordService {
 			return false;
 		}
 	}
+
+	@Override
+	public List<BorrowingRecord> findRecordsByBorrowed(Integer userId) {
+		
+		List<BorrowingRecord> resultBean = brRepo.findByUserIdAndReturnTimeIsNull(userId);
+		
+		return  resultBean;
+	}
+	
+	
 
 }
