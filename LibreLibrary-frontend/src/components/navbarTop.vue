@@ -17,6 +17,14 @@
           </li>
           <li class="nav-item">
             <RouterLink
+              v-if="isLoginNavbarTop == 'true' || isLoginNavbarTop == true"
+              class="nav-link"
+              to="/borrow"
+              >我的借書籃 ({{ 0 }})</RouterLink
+            >
+          </li>
+          <li class="nav-item">
+            <RouterLink
               v-if="isLoginNavbarTop == 'false' || isLoginNavbarTop == false"
               class="nav-link"
               to="/login"
@@ -49,14 +57,22 @@
 /*
   imports
 */
-import { ref, onMounted, onUpdated } from "vue";
+import { ref, onMounted, onUpdated, watch } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useMessage } from "naive-ui";
+import { useBorrowStore } from "../stores/borrowStore";
+import { storeToRefs } from "pinia";
 
 /*
   Check whether login
 */
 const isLoginNavbarTop = ref("false");
+
+/*
+  Store and session storage
+*/
+const borrowStore = useBorrowStore();
+const { bookBorrowStore } = storeToRefs(borrowStore);
 
 /*
   Router
@@ -69,8 +85,10 @@ const router = useRouter();
 const logout = () => {
   window.localStorage.setItem("isLogin", false);
   window.localStorage.setItem("token", "");
-  window.localStorage.setItem("username", "");
+  window.localStorage.setItem("userName", "");
   window.localStorage.setItem("phoneNumber", "");
+  window.localStorage.setItem("userId", "");
+  bookBorrowStore.value = [];
   handleMessage("您已登出，期待您再次蒞臨");
   // handleSuccess();
   router.push("/login");
