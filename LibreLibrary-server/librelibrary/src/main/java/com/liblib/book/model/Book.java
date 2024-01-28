@@ -3,6 +3,8 @@ package com.liblib.book.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,6 +31,7 @@ public class Book {
 	@Column(name = "introduction", columnDefinition = "nvarchar(255)")
     private String introduction;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
 	private List<Inventory> inventory = new ArrayList<>();
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,9 +36,11 @@ public class Inventory {
 	@Column(name = "status",nullable = false, columnDefinition = "nvarchar(25)")
     private String status;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "inventory")
 	private List<BorrowingRecord> borrowingRecord = new ArrayList<>();
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="isbn",insertable = false,updatable = false)
 	private Book book;
