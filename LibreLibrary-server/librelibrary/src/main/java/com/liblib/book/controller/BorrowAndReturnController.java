@@ -1,5 +1,7 @@
 package com.liblib.book.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.liblib.book.model.BorrowAndReturnDto;
-import com.liblib.book.model.BorrowingRecord;
+import com.liblib.book.model.BorrowingRecordDto;
 import com.liblib.book.service.IBorrowingRecordService;
 
 @RestController
@@ -44,13 +46,25 @@ public class BorrowAndReturnController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping("/borrowed")
+	@GetMapping("/getborrowed")
 	public ResponseEntity<?> findRecordsByBorrowed(@RequestParam(name = "userId") int userId) {
 		
 		try {
-			List<BorrowingRecord> resultObjectList = brService.findRecordsByBorrowed(userId);
-			 
-			return new ResponseEntity<>( HttpStatus.OK);
+			List<Object[]> resultObjectList = brService.findRecordsByBorrowed(userId);
+			List<BorrowingRecordDto>  resultList = new ArrayList<>();
+			BorrowingRecordDto tempDto = new BorrowingRecordDto();
+			for(Object[] record: resultObjectList) {
+				System.out.println(record);
+				tempDto.setRecordId((Integer)record[0]);
+				tempDto.setInventoryId((Integer)record[1]);
+				tempDto.setIsbn((String)record[2]);
+				tempDto.setName((String)record[3]);
+				tempDto.setAuthor((String)record[4]);
+				tempDto.setBorrowingTime((Date)record[5]);
+				tempDto.setUserId((Integer)record[6]);
+				resultList.add(tempDto);
+			}
+			return new ResponseEntity<>(resultList,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}

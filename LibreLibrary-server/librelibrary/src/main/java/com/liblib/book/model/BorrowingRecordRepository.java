@@ -16,4 +16,7 @@ public interface BorrowingRecordRepository extends JpaRepository<BorrowingRecord
 	void returnBooks(@Param("userId") Integer userId, @Param("inventoryId") Integer inventoryId);
 
 	List<BorrowingRecord> findByUserIdAndReturnTimeIsNull(@Param("userId") Integer userId);
+	
+	@Procedure(procedureName="SELECT_BORROWING_RECORD_ALREADY_BORROWED")
+	List<Object[]> findMultiTableDataByUserIdAndReturnTimeIsNull(@Param("userId") Integer userId);
 }

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.liblib.book.model.BorrowingRecord;
-import com.liblib.book.model.BorrowingRecordDto;
 import com.liblib.book.model.BorrowingRecordRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class BorrowingRecordService implements IBorrowingRecordService {
@@ -44,10 +44,9 @@ public class BorrowingRecordService implements IBorrowingRecordService {
 	}
 
 	@Override
-	public List<BorrowingRecord> findRecordsByBorrowed(Integer userId) {
-		
-		List<BorrowingRecord> resultBean = brRepo.findByUserIdAndReturnTimeIsNull(userId);
-		
+	@Transactional
+	public List<Object[]> findRecordsByBorrowed(Integer userId) {
+		List<Object[]> resultBean = brRepo.findMultiTableDataByUserIdAndReturnTimeIsNull(userId);
 		return  resultBean;
 	}
 	

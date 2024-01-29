@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -31,18 +32,20 @@ public class BorrowingRecord {
     private Integer inventoryId;
 	
 	@Column(name = "borrowingTime",nullable = false, columnDefinition = "datetime2")
-    private Date borrowingTime;
+    private Date  borrowingTime;
 	
 	@Column(name = "returnTime", columnDefinition = "datetime2")
-    private Date returnTime;
+    private Date  returnTime;
 	
-	@JsonIgnore
 	@ManyToOne
+	@JsonIgnore
+	@ToString.Exclude
 	@JoinColumn(name="userId",insertable = false,updatable = false)
 	private LibUser libUser;
 
-	@JsonIgnore
 	@ManyToOne
+	@JsonIgnore
+	@ToString.Exclude
 	@JoinColumn(name="inventoryId",insertable = false,updatable = false)
 	private Inventory inventory;
 	
