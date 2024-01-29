@@ -116,6 +116,7 @@ const borrowBook = async (inventoryId) => {
   if (response.status == 200) {
     handleSuccess("借閱成功");
     bookBorrowStore.value.splice(bookBorrowStore.value.indexOf(inventoryId), 1);
+    loadBorrowInventaryData();
   } else {
     handleWarning("借閱失敗");
   }
@@ -133,6 +134,7 @@ const borrowAllBooks = async () => {
   if (response.status == 200) {
     handleSuccess("借閱成功");
     bookBorrowStore.value = [];
+    loadBorrowInventaryData();
   } else {
     handleWarning("借閱失敗");
   }

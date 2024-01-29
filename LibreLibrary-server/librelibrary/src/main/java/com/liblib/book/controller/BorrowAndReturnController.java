@@ -1,5 +1,9 @@
 package com.liblib.book.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +57,7 @@ public class BorrowAndReturnController {
 			List<Object[]> resultObjectList = brService.findRecordsByBorrowed(userId);
 			List<BorrowingRecordDto>  resultList = new ArrayList<>();
 			BorrowingRecordDto tempDto = new BorrowingRecordDto();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			for(Object[] record: resultObjectList) {
 				System.out.println(record);
 				tempDto.setRecordId((Integer)record[0]);
@@ -60,8 +65,13 @@ public class BorrowAndReturnController {
 				tempDto.setIsbn((String)record[2]);
 				tempDto.setName((String)record[3]);
 				tempDto.setAuthor((String)record[4]);
-				tempDto.setBorrowingTime((Date)record[5]);
 				tempDto.setUserId((Integer)record[6]);
+				
+				Date borrowingTime = (Date)record[5];
+				LocalDate localDate = borrowingTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				LocalDate expirationTime = localDate.plusDays(30);
+				tempDto.setBorrowingTime((localDate.format(formatter)));
+				tempDto.setExpirationTime(expirationTime.format(formatter));
 				resultList.add(tempDto);
 			}
 			return new ResponseEntity<>(resultList,HttpStatus.OK);

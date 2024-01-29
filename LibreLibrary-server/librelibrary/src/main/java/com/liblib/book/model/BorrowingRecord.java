@@ -1,6 +1,6 @@
 package com.liblib.book.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liblib.user.model.LibUser;
@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 import lombok.ToString;
 
@@ -32,9 +34,11 @@ public class BorrowingRecord {
     private Integer inventoryId;
 	
 	@Column(name = "borrowingTime",nullable = false, columnDefinition = "datetime2")
-    private Date  borrowingTime;
+	@Temporal(TemporalType.DATE)
+	private Date  borrowingTime;
 	
 	@Column(name = "returnTime", columnDefinition = "datetime2")
+	@Temporal(TemporalType.DATE)
     private Date  returnTime;
 	
 	@ManyToOne

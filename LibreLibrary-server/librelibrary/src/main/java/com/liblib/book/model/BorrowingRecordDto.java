@@ -1,7 +1,5 @@
 package com.liblib.book.model;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -17,7 +15,9 @@ public class BorrowingRecordDto {
 	
 	private String author;
     
-	private Date borrowingTime;
+	private String borrowingTime;
+
+	private String expirationTime;
 
 	private Integer userId;
 	
