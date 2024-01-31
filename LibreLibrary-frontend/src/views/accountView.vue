@@ -32,7 +32,10 @@
                   <th scope="col">還書</th>
                 </tr>
               </thead>
-              <tbody v-for="(item, index) in userBorrowedData">
+              <tbody
+                v-if="userBorrowedData.length"
+                v-for="(item, index) in userBorrowedData"
+              >
                 <tr>
                   <th scope="row">{{ index + 1 }}</th>
                   <td>{{ item.isbn }}</td>
@@ -48,6 +51,11 @@
                       還書
                     </div>
                   </td>
+                </tr>
+              </tbody>
+              <tbody v-else>
+                <tr class="text-center">
+                  <td colspan="7">空的書櫃，快去借書吧！</td>
                 </tr>
               </tbody>
             </table>

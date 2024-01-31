@@ -31,9 +31,12 @@
                   <th scope="col">移除</th>
                 </tr>
               </thead>
-              <tbody v-for="(item, index) in borrowInventaryData">
+              <tbody
+                v-if="borrowInventaryData.length"
+                v-for="(item, index) in borrowInventaryData"
+              >
                 <tr>
-                  <th scope="row">{{ index + 1 }}</th>
+                  <td scope="row">{{ index + 1 }}</td>
                   <td>{{ item.book.name }}</td>
                   <td>{{ item.book.author }}</td>
                   <td>{{ item.status }}</td>
@@ -54,6 +57,11 @@
                       移除
                     </div>
                   </td>
+                </tr>
+              </tbody>
+              <tbody v-else>
+                <tr class="text-center">
+                  <td colspan="6">空的借書籃，快去借書吧！</td>
                 </tr>
               </tbody>
             </table>
