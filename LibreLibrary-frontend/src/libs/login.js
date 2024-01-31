@@ -32,27 +32,28 @@ const authToken = async (token) => {
   const result = {
     status: false,
     token: "",
-    userName: "",
-    loa: 0,
+    phoneNumber: "",
   };
   const data = {
     token: token,
   };
-  const res = await axios.post(`${URL}/auth`, data);
+  const res = await axios.post(`${URL}/login/auth`, data);
   if (res.data.status) {
     result.status = true;
     result.token = res.data.token;
-    result.userName = res.data.username;
+    result.phoneNumber = res.data.phoneNumber;
     setLoginStore({
       isLogin: true,
       token: result.token,
-      userName: result.userName,
+      phoneNumber: result.phoneNumber,
+      userId: window.localStorage.getItem("userId"),
+      userName: window.localStorage.getItem("userName"),
     });
   } else {
     setLoginStore({
       isLogin: false,
       token: "",
-      userName: "",
+      phoneNumber: "",
     });
   }
 

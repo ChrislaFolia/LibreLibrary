@@ -1,5 +1,7 @@
 package com.liblib.user.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.liblib.user.model.LibUser;
 import com.liblib.user.model.LoginResponse;
 import com.liblib.user.service.ILibUserService;
@@ -54,12 +57,31 @@ public class LoginController {
 			loginResponse.setUserId(-1);
 			
 			return loginResponse.toJSONString();
-			
 		}
-		
-		
 	}
 	
+	@PostMapping("/auth")
+	public String auth(@RequestBody Map<String, String> request) {
+		LoginResponse response = new LoginResponse();
+		String token = request.get("token");
+		
+		try {
+			String phoneNumber = utilJwt.verifyToken(token);
+			String newToken = utilJwt.generateToken(phoneNumber);
+			
+			response.setStatus(true);
+			response.setPhoneNumber(phoneNumber);
+			response.setToken(newToken);
+
+		} catch (JWTVerificationException exception) {
+			System.out.println("jwt verify fail");
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		System.out.println(response.toJSONString());
+
+		return response.toJSONString();
+	}
 	
 	
 }

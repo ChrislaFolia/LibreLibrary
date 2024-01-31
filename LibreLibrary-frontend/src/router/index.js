@@ -8,9 +8,6 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: () => import("../views/homeView.vue"),
-      //   meta: {
-      //     needLogin: true,
-      //   },
     },
     {
       path: "/login",
@@ -23,36 +20,25 @@ const router = createRouter({
       component: () => import("../views/signinView.vue"),
     },
     {
-      path: "/navbartop",
-      name: "navbartop",
-      component: () => import("../components/navbarTop.vue"),
-      // meta: {
-      //   needLogin: true,
-      // },
-    },
-    {
       path: "/book",
       name: "book",
       component: () => import("../views/bookView.vue"),
-      // meta: {
-      //   needLogin: true,
-      // },
     },
     {
       path: "/account",
       name: "account",
       component: () => import("../views/accountView.vue"),
-      // meta: {
-      //   needLogin: true,
-      // },
+      meta: {
+        needLogin: true,
+      },
     },
     {
       path: "/borrow",
       name: "borrow",
       component: () => import("../views/borrowView.vue"),
-      // meta: {
-      //   needLogin: true,
-      // },
+      meta: {
+        needLogin: true,
+      },
     },
   ],
 });
@@ -60,13 +46,8 @@ const router = createRouter({
 router.beforeResolve(async (to) => {
   if (to.meta.needLogin) {
     const isLogin = window.localStorage.getItem("isLogin");
-    const loa = window.localStorage.getItem("loa");
 
     if (!isLogin) {
-      return { name: "login" };
-    }
-    if (loa < to.meta.loa) {
-      logout();
       return { name: "login" };
     }
 
