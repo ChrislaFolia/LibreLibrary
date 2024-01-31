@@ -21,13 +21,14 @@
               <caption>
                 已借閲書籍
               </caption>
-              <thead class="table-light text-center">
+              <thead class="table-light text-left">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">書名</th>
                   <th scope="col">作者</th>
                   <th scope="col">館藏狀態</th>
                   <th scope="col">借書</th>
+                  <th scope="col">移除</th>
                 </tr>
               </thead>
               <tbody v-for="(item, index) in borrowInventaryData">
@@ -38,11 +39,19 @@
                   <td>{{ item.status }}</td>
                   <td>
                     <div
-                      @click="borrowBook()"
+                      @click="borrowBook(item.inventoryId)"
                       v-if="item.status == '在庫'"
                       class="btn btn-sm btn-outline-primary"
                     >
                       借書
+                    </div>
+                  </td>
+                  <td>
+                    <div
+                      @click="removeBook()"
+                      class="btn btn-sm btn-outline-warning"
+                    >
+                      移除
                     </div>
                   </td>
                 </tr>
@@ -87,13 +96,16 @@ const wishBorrowData = reactive({
 
 const loadBorrowInventaryData = async () => {
   const URLAPI = `${URL}/book/detail/ids`;
-  wishBorrowData.inventoryIds = bookBorrowStore.value;
-  wishBorrowData.userId = window.localStorage.getItem("userId");
-  const response = await axios.post(URLAPI, wishBorrowData).catch((error) => {
-    console.log(error.toJSON());
-  });
-
-  borrowInventaryData.value = response.data;
+  if (bookBorrowStore.value.length != 0) {
+    wishBorrowData.inventoryIds = bookBorrowStore.value;
+    wishBorrowData.userId = window.localStorage.getItem("userId");
+    const response = await axios.post(URLAPI, wishBorrowData).catch((error) => {
+      console.log(error.toJSON());
+    });
+    borrowInventaryData.value = response.data;
+  } else {
+    borrowInventaryData.value = [];
+  }
 };
 
 /**
@@ -138,6 +150,15 @@ const borrowAllBooks = async () => {
   } else {
     handleWarning("借閱失敗");
   }
+};
+
+/**
+ * Remove Books
+ */
+const removeBook = (inventoryId) => {
+  bookBorrowStore.value.splice(bookBorrowStore.value.indexOf(inventoryId), 1);
+  handleSuccess("成功移除書籍");
+  loadBorrowInventaryData();
 };
 
 /*

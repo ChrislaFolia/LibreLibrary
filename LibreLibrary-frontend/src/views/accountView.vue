@@ -12,7 +12,7 @@
         <div class="col-11 col-md-9 col-lg-9">
           <div>
             <div
-              @click="borrowAllBooks()"
+              @click="returnAllBooks()"
               class="btn btn-sm btn-outline-primary"
             >
               批次還書
@@ -42,7 +42,7 @@
                   <td>{{ item.expirationTime }}</td>
                   <td>
                     <div
-                      @click="returnBook()"
+                      @click="returnBook(item.inventoryId)"
                       class="btn btn-sm btn-outline-primary"
                     >
                       還書
@@ -86,8 +86,8 @@ const loadUserBorrowedData = async () => {
     .catch((error) => {
       console.log(error.toJSON());
     });
-  console.log(response.data);
   userBorrowedData.value = response.data;
+  console.log(response.data);
 };
 
 /**
@@ -115,11 +115,11 @@ const returnBook = async (inventoryId) => {
   }
 };
 
-const borrowAllBooks = async () => {
+const returnAllBooks = async () => {
   const URLAPI = `${URL}/br/return`;
   returnBooksData.userId = window.localStorage.getItem("userId");
-  for (const iterator of userBorrowedData.value) {
-    returnBooksData.inventoryIds.push(iterator[inventoryId]);
+  for (let i = 0; i < userBorrowedData.value.length; i++) {
+    returnBooksData.inventoryIds.push(userBorrowedData.value[i].inventoryId);
   }
 
   const response = await axios.put(URLAPI, returnBooksData).catch((error) => {
@@ -128,7 +128,6 @@ const borrowAllBooks = async () => {
 
   if (response.status == 200) {
     handleSuccess("還書成功");
-    bookBorrowStore.value = [];
     loadUserBorrowedData();
   } else {
     handleWarning("還書失敗");

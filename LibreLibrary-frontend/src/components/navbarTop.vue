@@ -20,7 +20,7 @@
               v-if="isLoginNavbarTop == 'true' || isLoginNavbarTop == true"
               class="nav-link"
               to="/borrow"
-              >我的借書籃 ({{ 0 }})</RouterLink
+              >我的借書籃 ({{ borrowStoreAmount }})</RouterLink
             >
           </li>
           <li class="nav-item">
@@ -57,7 +57,7 @@
 /*
   imports
 */
-import { ref, onMounted, onUpdated, watch } from "vue";
+import { ref, onMounted, onUpdated, computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useMessage } from "naive-ui";
 import { useBorrowStore } from "../stores/borrowStore";
@@ -93,6 +93,17 @@ const logout = () => {
   // handleSuccess();
   router.push("/login");
 };
+
+/**
+ * watcher
+ */
+let borrowStoreAmount = computed(() => {
+  if (bookBorrowStore.value !== null || bookBorrowStore.value !== undefined) {
+    return bookBorrowStore.value.length;
+  } else {
+    return 0;
+  }
+});
 
 /*
   Naive UI components

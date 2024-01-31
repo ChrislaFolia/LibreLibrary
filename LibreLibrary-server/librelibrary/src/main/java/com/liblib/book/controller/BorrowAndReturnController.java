@@ -1,6 +1,5 @@
 package com.liblib.book.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -56,10 +55,9 @@ public class BorrowAndReturnController {
 		try {
 			List<Object[]> resultObjectList = brService.findRecordsByBorrowed(userId);
 			List<BorrowingRecordDto>  resultList = new ArrayList<>();
-			BorrowingRecordDto tempDto = new BorrowingRecordDto();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			for(Object[] record: resultObjectList) {
-				System.out.println(record);
+				BorrowingRecordDto tempDto = new BorrowingRecordDto();
 				tempDto.setRecordId((Integer)record[0]);
 				tempDto.setInventoryId((Integer)record[1]);
 				tempDto.setIsbn((String)record[2]);
